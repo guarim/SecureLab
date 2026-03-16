@@ -1,0 +1,114 @@
+:root {
+    --bg-color: #1e1e2f;
+    --card-bg: #27293d;
+    --text-color: #ffffff;
+    --success: #00f2c3; /* Vert */
+    --danger: #fd5d93;  /* Rouge */
+    --neutral: #888;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    padding: 1rem 2rem;
+    background-color: var(--card-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.camera-section, .info-section {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.video-container {
+    position: relative;
+    width: 640px;
+    height: 480px;
+    background: black;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.info-section {
+    width: 300px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.student-details img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid var(--text-color);
+}
+
+.hidden { display: none; }
+
+.status-bar {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    background-color: #161621;
+}
+
+#status-message {
+    width: 100%;
+    padding: 20px;
+}
+
+.success { color: var(--success); background: rgba(0, 242, 195, 0.1); }
+.error { color: var(--danger); background: rgba(253, 93, 147, 0.1); }
+.neutral { color: var(--neutral); }
