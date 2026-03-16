@@ -433,26 +433,35 @@
         var btnUnlock = document.getElementById('btnUnlock');
         var btnLock = document.getElementById('btnLock');
 
-        function loadModels() {
-            var MODEL_URL = "/SecureLab/models/";
-            
-            return faceapi.nets.ssdMobilenetv1.loadFromUri("/SecureLab/models/")
-                .then(function() {
-                    return faceapi.nets.faceLandmark68Net.loadFromUri("/SecureLab/models/");
-                })
-                .then(function() {
-                    return faceapi.nets.faceRecognitionNet.loadFromUri(/"SecureLab/models/");
-                })
-                .then(function() {
-                    console.log('Modeles charges avec succes');
-                    modelsLoaded = true;
-                })
-                .catch(function(error) {
-                    console.error('Erreur chargement modeles:', error);
-                    loadingMessage.textContent = 'Erreur lors du chargement des modeles';
-                    loadingMessage.style.color = '#f87171';
-                });
-        }
+        // 2. Chargement des modèles et démarrage
+        Promise.all([
+        faceapi.nets.ssdMobilenetv1.loadFromUri("/Reco-eleves/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/Reco-eleves/models"),
+        faceapi.nets.faceRecognitionNet.loadFromUri("/Reco-eleves/models")
+        ]).then(startVideo);
+
+
+      //  function loadModels() {
+          //  var MODEL_URL = "/SecureLab/models/";
+          //  
+          // return faceapi.nets.ssdMobilenetv1.loadFromUri("/SecureLab/models/")
+          //     .then(function() {
+          //        return faceapi.nets.faceLandmark68Net.loadFromUri("/SecureLab/models/");
+          //   })
+          //      .then(function() {
+          //          return faceapi.nets.faceRecognitionNet.loadFromUri(/"SecureLab/models/");
+          //      })
+          //      .then(function() {
+          //          console.log('Modeles charges avec succes');
+          //          modelsLoaded = true;
+          //      })
+          //    .catch(function(error) {
+          //       .catch(function(error) {
+          //           console.error('Erreur chargement modeles:', error);
+          //          loadingMessage.textContent = 'Erreur lors du chargement des modeles';
+          //           loadingMessage.style.color = '#f87171';
+          //      });
+        // }
 
         function loadStudentData() {
             return fetch('./students.json')
