@@ -434,12 +434,12 @@
         function loadModels() {
             var MODEL_URL = "SecureLab/models/";
             
-            return faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
+            return faceapi.nets.ssdMobilenetv1.loadFromUri("SecureLab/models/")
                 .then(function() {
-                    return faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+                    return faceapi.nets.faceLandmark68Net.loadFromUri("SecureLab/models/");
                 })
                 .then(function() {
-                    return faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+                    return faceapi.nets.faceRecognitionNet.loadFromUri("SecureLab/models/");
                 })
                 .then(function() {
                     console.log('Modeles charges avec succes');
