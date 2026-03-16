@@ -409,7 +409,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/face-api.js/0.22.2/face-api.min.js"></script>
+    <script src="SecureLab/face-api.min.js"></script>
     <script>
         var students = [];
         var labeledDescriptors = [];
@@ -432,7 +432,7 @@
         var btnLock = document.getElementById('btnLock');
 
         function loadModels() {
-            var MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+            var MODEL_URL = 'SecureLab/models/';
             
             return faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
                 .then(function() {
