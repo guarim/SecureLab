@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle d Acces Intelligent</title>
-    <script defer src="face-api.js"></script>
-    <script defer src="script.js"></script>
     <style>
         * {
             margin: 0;
@@ -433,35 +431,26 @@
         var btnUnlock = document.getElementById('btnUnlock');
         var btnLock = document.getElementById('btnLock');
 
-        // 2. Chargement des modèles et démarrage
-        Promise.all([
-        faceapi.nets.ssdMobilenetv1.loadFromUri("/Reco-eleves/models"),
-        faceapi.nets.faceLandmark68Net.loadFromUri("/Reco-eleves/models"),
-        faceapi.nets.faceRecognitionNet.loadFromUri("/Reco-eleves/models")
-        ]).then(startVideo);
-
-
-      //  function loadModels() {
-          //  var MODEL_URL = "/SecureLab/models/";
-          //  
-          // return faceapi.nets.ssdMobilenetv1.loadFromUri("/SecureLab/models/")
-          //     .then(function() {
-          //        return faceapi.nets.faceLandmark68Net.loadFromUri("/SecureLab/models/");
-          //   })
-          //      .then(function() {
-          //          return faceapi.nets.faceRecognitionNet.loadFromUri(/"SecureLab/models/");
-          //      })
-          //      .then(function() {
-          //          console.log('Modeles charges avec succes');
-          //          modelsLoaded = true;
-          //      })
-          //    .catch(function(error) {
-          //       .catch(function(error) {
-          //           console.error('Erreur chargement modeles:', error);
-          //          loadingMessage.textContent = 'Erreur lors du chargement des modeles';
-          //           loadingMessage.style.color = '#f87171';
-          //      });
-        // }
+        function loadModels() {
+            var MODEL_URL = '/SecureLab/models/';
+            
+            return faceapi.nets.ssdMobilenetv1.loadFromUri("/SecureLab/models/")
+                .then(function() {
+                    return faceapi.nets.faceLandmark68Net.loadFromUri("/SecureLab/models/");
+                })
+                .then(function() {
+                    return faceapi.nets.faceRecognitionNet.loadFromUri("/SecureLab/models/");
+                })
+                .then(function() {
+                    console.log('Modeles charges avec succes');
+                    modelsLoaded = true;
+                })
+                .catch(function(error) {
+                    console.error('Erreur chargement modeles:', error);
+                    loadingMessage.textContent = 'Erreur lors du chargement des modeles';
+                    loadingMessage.style.color = '#f87171';
+                });
+        }
 
         function loadStudentData() {
             return fetch('./students.json')
@@ -539,11 +528,14 @@
 
             var constraints = {
                 video: {
-                    deviceId: deviceId ? { exact: deviceId } : undefined,
                     width: 640,
                     height: 480
                 }
             };
+            
+            if (deviceId) {
+                constraints.video.deviceId = { exact: deviceId };
+            }
 
             return navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(mediaStream) {
