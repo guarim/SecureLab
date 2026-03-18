@@ -409,7 +409,31 @@
     </div>
 
     <script src="/SecureLab/face-api.min.js"></script>
-    <script>
+        <script>        
+        var students = [];
+        var labeledDescriptors = [];
+        var isProcessing = false;
+        var stream = null;
+        var modelsLoaded = false;
+        var bleDevice = null;
+        var bleCharacteristic = null;
+        var recognitionInterval = null;
+        var livenessCheckActive = true;
+        var previousHeadPositions = [];
+        var headMovementThreshold = 15;
+
+        var video = document.getElementById('video');
+        var overlay = document.getElementById('overlay');
+        var analyzeBtn = document.getElementById('analyzeBtn');
+        var identityCard = document.getElementById('identityCard');
+        var statusBar = document.getElementById('statusBar');
+        var loadingMessage = document.getElementById('loadingMessage');
+        var mainContent = document.getElementById('mainContent');
+        var cameraSelect = document.getElementById('cameraSelect');
+        var btnBLE = document.getElementById('btnBLE');
+        var btnUnlock = document.getElementById('btnUnlock');
+        var btnLock = document.getElementById('btnLock');
+               
             function captureAndRecognize() {
             if (isProcessing || !modelsLoaded || labeledDescriptors.length === 0) return;
             
@@ -491,41 +515,6 @@
             analyzeBtn.disabled = false;
             analyzeBtn.textContent = 'Analyser le Visage';
         }
-
-
-
-
-
-
-
-
-
-
-
-                
-        var students = [];
-        var labeledDescriptors = [];
-        var isProcessing = false;
-        var stream = null;
-        var modelsLoaded = false;
-        var bleDevice = null;
-        var bleCharacteristic = null;
-        var recognitionInterval = null;
-        var livenessCheckActive = true;
-        var previousHeadPositions = [];
-        var headMovementThreshold = 15;
-
-        var video = document.getElementById('video');
-        var overlay = document.getElementById('overlay');
-        var analyzeBtn = document.getElementById('analyzeBtn');
-        var identityCard = document.getElementById('identityCard');
-        var statusBar = document.getElementById('statusBar');
-        var loadingMessage = document.getElementById('loadingMessage');
-        var mainContent = document.getElementById('mainContent');
-        var cameraSelect = document.getElementById('cameraSelect');
-        var btnBLE = document.getElementById('btnBLE');
-        var btnUnlock = document.getElementById('btnUnlock');
-        var btnLock = document.getElementById('btnLock');
 
         function loadModels() {
             var MODEL_URL = '/SecureLab/models';
