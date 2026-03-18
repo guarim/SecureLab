@@ -1,90 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<script language="javascript">
-function captureAndRecognize() {
-            if (isProcessing || !modelsLoaded || labeledDescriptors.length === 0) return;
-            
-            isProcessing = true;
-            analyzeBtn.disabled = true;
-            analyzeBtn.textContent = 'Analyse en cours...';
-            
-            showStatus('info', 'Analyse en cours...');
-
-            faceapi.detectAllFaces(video)
-                .withFaceLandmarks()
-                .withFaceDescriptors()
-                .then(function(detections) {
-                    if (detections.length === 0) {
-                        displayWaitingState();
-                        showStatus('error', 'AUCUN VISAGE DETECTE');
-                        resetAnalyzeButton();
-                        return;
-                    }
-
-                    var faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
-                    var displaySize = { width: video.videoWidth, height: video.videoHeight };
-                    faceapi.matchDimensions(overlay, displaySize);
-                    var resizedDetections = faceapi.resizeResults(detections, displaySize);
-                    overlay.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
-
-                    var bestMatch = null;
-                    var bestDistance = 1;
-
-                    for (var i = 0; i < resizedDetections.length; i++) {
-                        var detection = resizedDetections[i];
-                        var match = faceMatcher.findBestMatch(detection.descriptor);
-                        
-                        var box = detection.detection.box;
-                        var drawBox = new faceapi.draw.DrawBox(box, {
-                            label: match.label !== 'unknown' ? match.label : 'Inconnu',
-                            boxColor: match.label !== 'unknown' ? '#10b981' : '#ef4444'
-                        });
-                        drawBox.draw(overlay);
-
-                        if (match.label !== 'unknown' && match.distance < bestDistance) {
-                            bestDistance = match.distance;
-                            bestMatch = match;
-                        }
-                    }
-
-                    if (bestMatch && bestMatch.label !== 'unknown') {
-                        var student = null;
-                        for (var j = 0; j < students.length; j++) {
-                            if (students[j].id === bestMatch.label) {
-                                student = students[j];
-                                break;
-                            }
-                        }
-                        
-                        if (student) {
-                            displayStudentInfo(student);
-                            showStatus('success', 'ACCES AUTORISE');
-                        } else {
-                            displayWaitingState();
-                            showStatus('error', 'ACCES REFUSE');
-                        }
-                    } else {
-                        displayWaitingState();
-                        showStatus('error', 'ACCES REFUSE - PERSONNE NON RECONNUE');
-                    }
-
-                    resetAnalyzeButton();
-                })
-                .catch(function(error) {
-                    console.error('Erreur reconnaissance:', error);
-                    showStatus('error', 'Erreur lors de la reconnaissance');
-                    resetAnalyzeButton();
-                });
-        }
-
-        function resetAnalyzeButton() {
-            isProcessing = false;
-            analyzeBtn.disabled = false;
-            analyzeBtn.textContent = 'Analyser le Visage';
-        }
-</script> 
-            
+       
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -494,6 +410,99 @@ function captureAndRecognize() {
 
     <script src="/SecureLab/face-api.min.js"></script>
     <script>
+            function captureAndRecognize() {
+            if (isProcessing || !modelsLoaded || labeledDescriptors.length === 0) return;
+            
+            isProcessing = true;
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Analyse en cours...';
+            
+            showStatus('info', 'Analyse en cours...');
+
+            faceapi.detectAllFaces(video)
+                .withFaceLandmarks()
+                .withFaceDescriptors()
+                .then(function(detections) {
+                    if (detections.length === 0) {
+                        displayWaitingState();
+                        showStatus('error', 'AUCUN VISAGE DETECTE');
+                        resetAnalyzeButton();
+                        return;
+                    }
+
+                    var faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+                    var displaySize = { width: video.videoWidth, height: video.videoHeight };
+                    faceapi.matchDimensions(overlay, displaySize);
+                    var resizedDetections = faceapi.resizeResults(detections, displaySize);
+                    overlay.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
+
+                    var bestMatch = null;
+                    var bestDistance = 1;
+
+                    for (var i = 0; i < resizedDetections.length; i++) {
+                        var detection = resizedDetections[i];
+                        var match = faceMatcher.findBestMatch(detection.descriptor);
+                        
+                        var box = detection.detection.box;
+                        var drawBox = new faceapi.draw.DrawBox(box, {
+                            label: match.label !== 'unknown' ? match.label : 'Inconnu',
+                            boxColor: match.label !== 'unknown' ? '#10b981' : '#ef4444'
+                        });
+                        drawBox.draw(overlay);
+
+                        if (match.label !== 'unknown' && match.distance < bestDistance) {
+                            bestDistance = match.distance;
+                            bestMatch = match;
+                        }
+                    }
+
+                    if (bestMatch && bestMatch.label !== 'unknown') {
+                        var student = null;
+                        for (var j = 0; j < students.length; j++) {
+                            if (students[j].id === bestMatch.label) {
+                                student = students[j];
+                                break;
+                            }
+                        }
+                        
+                        if (student) {
+                            displayStudentInfo(student);
+                            showStatus('success', 'ACCES AUTORISE');
+                        } else {
+                            displayWaitingState();
+                            showStatus('error', 'ACCES REFUSE');
+                        }
+                    } else {
+                        displayWaitingState();
+                        showStatus('error', 'ACCES REFUSE - PERSONNE NON RECONNUE');
+                    }
+
+                    resetAnalyzeButton();
+                })
+                .catch(function(error) {
+                    console.error('Erreur reconnaissance:', error);
+                    showStatus('error', 'Erreur lors de la reconnaissance');
+                    resetAnalyzeButton();
+                });
+        }
+
+        function resetAnalyzeButton() {
+            isProcessing = false;
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = 'Analyser le Visage';
+        }
+
+
+
+
+
+
+
+
+
+
+
+                
         var students = [];
         var labeledDescriptors = [];
         var isProcessing = false;
