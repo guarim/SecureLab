@@ -517,7 +517,7 @@ function captureAndRecognize() {
         var btnLock = document.getElementById('btnLock');
 
         function loadModels() {
-            var MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+            var MODEL_URL = '/SecureLab/models';
             
             return faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
                 .then(function() {
